@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Premium Learning Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #3b82f6;
+      --secondary: #8b5cf6;
+      --accent: #f59e0b;
+      --discord: #5865F2;
+      --gdrive: #4285F4;
+      --dark: #0f172a;
+      --darker: #020617;
+      --card-bg: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --border: #334155;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--darker);
+      color: var(--light);
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 40px 20px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    header h1 { font-size: 2rem; font-weight: 700; }
+    header p { opacity: 0.9; margin-top: 5px; font-size: 0.95rem; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px 16px; }
+
+    /* Section visibility */
+    .section { display: none; }
+    .section.active { display: block; animation: fade 0.2s ease; }
+    @keyframes fade { from { opacity: 0.5; } to { opacity: 1; } }
+
+    /* Title */
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 25px 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title i { color: var(--primary); }
+
+    /* Kategori */
+    .category-group { margin-bottom: 40px; }
+    .category-header {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 3px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .category-header i { color: var(--accent); }
+
+    .album-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 25px;
+      border: 1px solid var(--border);
+    }
+    .album-header {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .album-header i { color: var(--secondary); }
+
+    /* GRID 3 KOLOM */
+    .video-grid, .pdf-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    /* Card video */
+    .video-card {
+      background: var(--dark);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: 0.2s;
+      text-decoration: none;
+      color: var(--light);
+      display: block;
+    }
+    .video-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(59,130,246,0.3);
+    }
+    .video-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #1e293b;
+      position: relative;
+      overflow: hidden;
+    }
+    .video-thumb iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-info {
+      padding: 12px;
+    }
+    .video-info h4 {
+      font-size: 0.85rem;
+      font-weight: 500;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .video-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 0.7rem;
+      color: var(--gray);
+    }
+    .video-meta .youtube-badge {
+      color: #ff0000;
+    }
+    .video-meta .gdrive-badge {
+      color: var(--gdrive);
+    }
+
+    /* PDF card */
+    .pdf-card {
+      background: linear-gradient(145deg, #b91c1c, #7f1d1d);
+      border-radius: 16px;
+      padding: 18px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      text-decoration: none;
+      color: white;
+      border: 1px solid #991b1b;
+      transition: 0.2s;
+    }
+    .pdf-card:hover {
+      border-color: #fbbf24;
+      box-shadow: 0 0 0 2px #f59e0b;
+    }
+    .pdf-card i { font-size: 2rem; }
+    .pdf-title { font-size: 0.85rem; font-weight: 500; }
+
+    /* VIP Section */
+    .vip-section {
+      background: linear-gradient(145deg, #1e1b4b, #2e1065);
+      border-radius: 30px;
+      padding: 30px 25px;
+      border: 1px solid rgba(139,92,246,0.3);
+    }
+    .vip-header { text-align: center; margin-bottom: 25px; }
+    .vip-header h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .vip-desc {
+      text-align: center;
+      color: #cbd5e1;
+      margin-bottom: 25px;
+      white-space: pre-line;
+    }
+
+    .vip-features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+    .feature-item {
+      background: rgba(255,255,255,0.05);
+      padding: 14px 10px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+    }
+
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 25px 0;
+    }
+    .price-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 20px 12px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .price-card.featured { border: 2px solid var(--accent); }
+    .price-card .price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .discord-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: var(--discord);
+      color: white;
+      text-decoration: none;
+      padding: 16px 30px;
+      border-radius: 50px;
+      font-weight: 600;
+      width: fit-content;
+      margin: 20px auto 0;
+      transition: 0.2s;
+    }
+    .discord-btn:hover {
+      background: #4752C4;
+      transform: scale(1.02);
+    }
+
+    /* Bottom navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15,23,42,0.95);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0 8px;
+      border-top: 1px solid var(--border);
+      z-index: 1000;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.7rem;
+      gap: 4px;
+      padding: 5px 20px;
+      border-radius: 30px;
+      transition: 0.2s;
+    }
+    .nav-item.active { 
+      color: var(--primary); 
+      background: rgba(59,130,246,0.1);
+    }
+    .nav-item i { font-size: 1.3rem; }
+
+    .empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 40px;
+      background: var(--card-bg);
+      border-radius: 30px;
+      color: var(--gray);
+    }
+
+    /* Mobile tetap 3 kolom */
+    @media (max-width: 480px) {
+      .video-grid, .pdf-grid, .vip-features, .price-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .video-info h4 { font-size: 0.7rem; }
+      .feature-item { 
+        padding: 10px 6px; 
+        font-size: 0.7rem;
+      }
+      .price-card .price { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Premium Learning</h1>
+  <p>Kuasai ilmu dari ahlinya</p>
+</header>
+
+<div class="container">
+  <!-- VIDEO SECTION -->
+  <div id="video-section" class="section active">
+    <div class="section-title"><i class="fas fa-play-circle"></i> Video Modul</div>
+    <div id="videoContainer"></div>
+  </div>
+
+  <!-- PDF SECTION -->
+  <div id="pdf-section" class="section">
+    <div class="section-title"><i class="fas fa-file-pdf"></i> PDF Modul</div>
+    <div class="pdf-grid" id="pdfGrid"></div>
+  </div>
+
+  <!-- VIP SECTION -->
+  <div id="vip-section" class="section">
+    <div class="section-title"><i class="fas fa-crown"></i> Join VIP</div>
+    <div id="vipContent"></div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="#" class="nav-item active" onclick="showSection('video', this); return false;">
+    <i class="fas fa-play"></i><span>Video</span>
+  </a>
+  <a href="#" class="nav-item" onclick="showSection('pdf', this); return false;">
+    <i class="fas fa-file-pdf"></i><span>PDF</span>
+  </a>
+  <a href="#" class="nav-item" onclick="showSection('vip', this); return false;">
+    <i class="fas fa-crown"></i><span>VIP</span>
+  </a>
+</nav>
+
+<script>
+function showSection(name, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(m => m.classList.remove('active'));
+  document.getElementById(name + '-section').classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+async function loadData() {
+  try {
+    const res = await fetch('/data');
+    const data = await res.json();
+
+    // ========== VIDEOS ==========
+    let videoHtml = '';
+    if (data.categories?.length) {
+      data.categories.forEach(cat => {
+        videoHtml += `
+          <div class="category-group">
+            <div class="category-header"><i class="fas fa-folder-open"></i> ${cat.name}</div>
+        `;
+        if (cat.albums?.length) {
+          cat.albums.forEach(album => {
+            videoHtml += `
+              <div class="album-card">
+                <div class="album-header"><i class="fas fa-compact-disc"></i> ${album.name}</div>
+                <div class="video-grid">
+            `;
+            if (album.videos?.length) {
+              album.videos.forEach(video => {
+                let embedUrl = video.link;
+                let isDrive = false;
+                let isYoutube = false;
+                
+                // YouTube
+                if (video.link.includes('youtube.com/watch') || video.link.includes('youtu.be')) {
+                  isYoutube = true;
+                  let vid = '';
+                  if (video.link.includes('youtube.com/watch')) {
+                    vid = video.link.split('v=')[1]?.split('&')[0];
+                  } else if (video.link.includes('youtu.be/')) {
+                    vid = video.link.split('youtu.be/')[1]?.split('?')[0];
+                  }
+                  if (vid) embedUrl = `https://www.youtube.com/embed/${vid}`;
+                }
+                // Google Drive
+                else if (video.link.includes('drive.google.com')) {
+                  isDrive = true;
+                  let fileId = '';
+                  
+                  // Extract file ID dari berbagai format
+                  if (video.link.includes('/file/d/')) {
+                    fileId = video.link.split('/file/d/')[1]?.split('/')[0];
+                  } else if (video.link.includes('id=')) {
+                    fileId = video.link.split('id=')[1]?.split('&')[0];
+                  } else if (video.link.includes('/preview')) {
+                    fileId = video.link.split('/d/')[1]?.split('/')[0];
+                  } else if (video.link.includes('/view')) {
+                    fileId = video.link.split('/d/')[1]?.split('/')[0];
+                  }
+                  
+                  if (fileId) {
+                    // Format PREVIEW untuk iframe
+                    embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+                  }
+                }
+                
+                // Tampilan card
+                if (isDrive) {
+                  videoHtml += `
+                    <a href="${video.link}" target="_blank" class="video-card">
+                      <div class="video-thumb">
+                        <iframe src="${embedUrl}" allowfullscreen="true" allow="autoplay" loading="lazy"></iframe>
+                      </div>
+                      <div class="video-info">
+                        <h4>${video.title}</h4>
+                        <div class="video-meta">
+                          <i class="fab fa-google-drive gdrive-badge"></i>
+                          <span class="gdrive-badge">Google Drive</span>
+                        </div>
+                      </div>
+                    </a>
+                  `;
+                } else {
+                  videoHtml += `
+                    <a href="${video.link}" target="_blank" class="video-card">
+                      <div class="video-thumb">
+                        <iframe src="${embedUrl}" allowfullscreen loading="lazy"></iframe>
+                      </div>
+                      <div class="video-info">
+                        <h4>${video.title}</h4>
+                        <div class="video-meta">
+                          <i class="fab fa-youtube youtube-badge"></i>
+                          <span>YouTube</span>
+                        </div>
+                      </div>
+                    </a>
+                  `;
+                }
+              });
+            } else {
+              videoHtml += `<div class="empty">Belum ada video</div>`;
+            }
+            videoHtml += `</div></div>`;
+          });
+        } else {
+          videoHtml += `<div class="empty">Belum ada album</div>`;
+        }
+        videoHtml += `</div>`;
+      });
+    } else {
+      videoHtml = '<div class="empty"><i class="fas fa-video-slash"></i><p>Belum ada video</p></div>';
+    }
+    document.getElementById('videoContainer').innerHTML = videoHtml;
+
+    // ========== PDF ==========
+    let pdfHtml = '';
+    if (data.pdfs?.length) {
+      data.pdfs.forEach(pdf => {
+        // Cek apakah link PDF dari Google Drive
+        let pdfLink = pdf.link;
+        if (pdf.link.includes('drive.google.com')) {
+          let fileId = '';
+          if (pdf.link.includes('/file/d/')) {
+            fileId = pdf.link.split('/file/d/')[1]?.split('/')[0];
+          } else if (pdf.link.includes('id=')) {
+            fileId = pdf.link.split('id=')[1]?.split('&')[0];
+          }
+          if (fileId) {
+            pdfLink = `https://drive.google.com/file/d/${fileId}/preview`;
+          }
+        }
+        
+        pdfHtml += `
+          <a href="${pdfLink}" target="_blank" class="pdf-card">
+            <i class="fas fa-file-pdf"></i>
+            <span class="pdf-title">${pdf.title}</span>
+          </a>
+        `;
+      });
+    } else {
+      pdfHtml = '<div class="empty"><i class="fas fa-file-pdf"></i><p>Belum ada PDF</p></div>';
+    }
+    document.getElementById('pdfGrid').innerHTML = pdfHtml;
+
+    // ========== VIP ==========
+    const v = data.joinVip || {};
+    let vipHtml = `
+      <div class="vip-section">
+        <div class="vip-header">
+          <h2>${v.title || 'JOIN VIP'}</h2>
+          <p style="color:#a5b4fc; margin-top:5px;">${v.subtitle || ''}</p>
+        </div>
+        <div class="vip-desc">${v.description || ''}</div>
+    `;
+    
+    if (v.features?.length) {
+      vipHtml += `<div class="vip-features">`;
+      v.features.forEach(f => {
+        vipHtml += `<div class="feature-item"><i class="fas fa-check-circle" style="color:#10b981;"></i>${f}</div>`;
+      });
+      vipHtml += `</div>`;
+    }
+    
+    if (v.classes?.length) {
+      vipHtml += `<div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 25px;">`;
+      v.classes.forEach(c => {
+        vipHtml += `<span style="background: rgba(139,92,246,0.2); padding: 6px 16px; border-radius: 30px; font-size: 0.8rem;">${c}</span>`;
+      });
+      vipHtml += `</div>`;
+    }
+    
+    if (v.prices?.length) {
+      vipHtml += `<div class="price-grid">`;
+      v.prices.forEach(p => {
+        vipHtml += `
+          <div class="price-card ${p.bonus ? 'featured' : ''}">
+            <h3 style="color:#94a3b8;">${p.name}</h3>
+            <div class="price">${p.price}</div>
+            ${p.bonus ? `<div style="color:#818cf8; font-size:0.7rem; margin-top:5px;">✨ ${p.bonus}</div>` : ''}
+          </div>
+        `;
+      });
+      vipHtml += `</div>`;
+    }
+    
+    if (v.discordLink) {
+      vipHtml += `<a href="${v.discordLink}" target="_blank" class="discord-btn"><i class="fab fa-discord"></i> Gabung Discord</a>`;
+    }
+    
+    vipHtml += `</div>`;
+    document.getElementById('vipContent').innerHTML = vipHtml;
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('videoContainer').innerHTML = '<div class="empty">❌ Gagal load data. Pastikan server berjalan.</div>';
+  }
+}
+
+loadData();
+</script>
+</body>
+</html>

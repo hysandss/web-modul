@@ -1,0 +1,75 @@
+{
+  "joinVip": {
+    "title": "🔥 CUAN BARENG CRYPTO 🔥",
+    "subtitle": "KELAS MIRROR CRYPTO - ALL IN ONE",
+    "discordLink": "https://discord.gg/contoh-link-discord",
+    "description": "Berhenti lompat-lompat kelas. Berhenti telat info.\nSekali join, semua kelas jalan bersamaan, real-time, tanpa delay.\n\nCuan Bareng Crypto menghadirkan Kelas Mirror Crypto All in One.",
+    "features": [
+      "Modul lengkap dari berbagai akademi crypto ternama",
+      "Signal harian (Spot & Futures)",
+      "Update news global & analisis makro ekonomi"
+    ],
+    "classes": [
+      "Akademi Crypto",
+      "Trade With Suli",
+      "KJO Academy"
+    ],
+    "prices": []
+  },
+  "categories": [
+    {
+      "id": 1771613001345,
+      "name": "CRYPTO TRADING",
+      "albums": [
+        {
+          "id": 1771613073490,
+          "name": "okeoke",
+          "videos": [
+            {
+              "id": 1771613086691,
+              "title": "playback1",
+              "link": "https://drive.google.com/file/d/1Pw4wMWDdojue_WgYokETXzXHFLlB25fn/view?usp=drive_link"
+            },
+            {
+              "id": 1771614127549,
+              "title": "playback2",
+              "link": "https://drive.google.com/file/d/1BwfGb0S8D-vJ8tOe3pjyi1T3637b-3Np/view?usp=drive_link"
+            },
+            {
+              "id": 1771614148942,
+              "title": "playback3",
+              "link": "https://drive.google.com/file/d/1x99nVoKOQGlC3VnU87WSB1XrDzGDbNKc/view?usp=drive_link"
+            },
+            {
+              "id": 1771614168256,
+              "title": "playback4",
+              "link": "https://drive.google.com/file/d/1q36_P7ph96uF8eFV4Kx5njQqP-Hrtxgr/view?usp=drive_link"
+            },
+            {
+              "id": 1771614195542,
+              "title": "playback5",
+              "link": "https://drive.google.com/file/d/1qr2qTZDcPfHtDhjh5A6vnGn3x6QnrK3y/view?usp=drive_link"
+            },
+            {
+              "id": 1771614220359,
+              "title": "playback6",
+              "link": "https://drive.google.com/file/d/1bYkotuDJ_TGRzA2_CV5zHZ52ssEpQORH/view?usp=drive_link"
+            },
+            {
+              "id": 1771614243654,
+              "title": "playback7",
+              "link": "https://drive.google.com/file/d/1KvKoLqMZdYpOBEMpgpjESEB_0kyijr4A/view?usp=drive_link"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pdfs": [
+    {
+      "id": 1771584984879,
+      "title": "MONEY MANAGEMENT",
+      "link": "https://docs.google.com/spreadsheets/d/1kXw69FxmgKFQ2vYEMhL-QTWCsb6PnZYG/edit?usp=drive_link&ouid=114532905795139048712&rtpof=true&sd=true"
+    }
+  ]
+}
