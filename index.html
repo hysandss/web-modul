@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>KELAS MIRROR CRYPTO - ALL IN ONE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #3b82f6;
+      --secondary: #8b5cf6;
+      --accent: #f59e0b;
+      --discord: #5865F2;
+      --gdrive: #4285F4;
+      --youtube: #ff0000;
+      --dark: #0f172a;
+      --darker: #020617;
+      --card-bg: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --border: #334155;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--darker);
+      color: var(--light);
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 40px 20px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    header h1 { font-size: 2rem; font-weight: 700; }
+    header p { opacity: 0.9; margin-top: 5px; font-size: 0.95rem; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px 16px; }
+
+    .section { display: none; }
+    .section.active { display: block; animation: fade 0.2s ease; }
+    @keyframes fade { from { opacity: 0.5; } to { opacity: 1; } }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 25px 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title i { color: var(--primary); }
+
+    .category-group { margin-bottom: 40px; }
+    .category-header {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 3px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+    }
+    .category-header i { color: var(--accent); }
+
+    .album-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 25px;
+      border: 1px solid var(--border);
+    }
+    .album-header {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      text-transform: capitalize;
+    }
+    .album-header i { color: var(--secondary); }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .video-card {
+      background: var(--dark);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .video-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(59,130,246,0.3);
+    }
+    .video-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #1e293b;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .video-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .thumb-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: var(--gdrive);
+    }
+    .thumb-placeholder i {
+      font-size: 2.5rem;
+      margin-bottom: 5px;
+      opacity: 0.8;
+    }
+    .thumb-placeholder span {
+      font-size: 0.75rem;
+      opacity: 0.6;
+    }
+    .source-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(66,133,244,0.9);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 2;
+    }
+    .play-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: 0.2s;
+    }
+    .video-card:hover .play-overlay {
+      opacity: 1;
+    }
+    .play-overlay i {
+      font-size: 3rem;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+    .video-info {
+      padding: 12px;
+    }
+    .video-info h4 {
+      font-size: 0.85rem;
+      font-weight: 500;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .video-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 0.7rem;
+      color: var(--gdrive);
+    }
+
+    .pdf-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+    .pdf-card {
+      background: linear-gradient(145deg, #b91c1c, #7f1d1d);
+      border-radius: 16px;
+      padding: 18px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      text-decoration: none;
+      color: white;
+      border: 1px solid #991b1b;
+      transition: 0.2s;
+    }
+    .pdf-card:hover {
+      border-color: #fbbf24;
+      box-shadow: 0 0 0 2px #f59e0b;
+    }
+    .pdf-card i { font-size: 2rem; }
+    .pdf-title { font-size: 0.85rem; font-weight: 500; }
+
+    /* Modal Player */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.95);
+      z-index: 2000;
+      overflow-y: auto;
+    }
+    .modal.active {
+      display: block;
+    }
+    .modal-content {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    .video-player-container {
+      background: black;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      margin-bottom: 20px;
+    }
+    .video-player-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-info-modal {
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: 16px;
+    }
+    .video-info-modal h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    .close-modal {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2001;
+    }
+    .close-modal:hover {
+      background: var(--primary);
+    }
+
+    /* VIP Section - Custom untuk Promo */
+    .vip-section {
+      background: linear-gradient(145deg, #1e1b4b, #2e1065);
+      border-radius: 30px;
+      padding: 40px 30px;
+      border: 2px solid rgba(255,215,0,0.3);
+      box-shadow: 0 0 30px rgba(139,92,246,0.3);
+    }
+    .vip-header { text-align: center; margin-bottom: 30px; }
+    .vip-header h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFD700, #FFA500, #FF4500);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+    .vip-subheader {
+      font-size: 1.2rem;
+      color: #a5b4fc;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .vip-tagline {
+      background: rgba(255,215,0,0.1);
+      padding: 15px 20px;
+      border-radius: 50px;
+      color: #FFD700;
+      font-weight: 600;
+      margin: 20px 0;
+      border: 1px dashed #FFD700;
+    }
+    .vip-desc {
+      color: #e2e8f0;
+      margin-bottom: 30px;
+      font-size: 1rem;
+      line-height: 1.8;
+      text-align: center;
+      background: rgba(0,0,0,0.2);
+      padding: 20px;
+      border-radius: 20px;
+    }
+    .vip-benefits {
+      background: rgba(139,92,246,0.1);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 1rem;
+      color: #cbd5e1;
+    }
+    .benefit-item i {
+      color: #10b981;
+      font-size: 1.2rem;
+    }
+    .class-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 25px 0;
+    }
+    .class-item {
+      background: rgba(255,215,0,0.1);
+      padding: 12px 8px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #FFD700;
+      border: 1px solid rgba(255,215,0,0.3);
+      transition: 0.2s;
+    }
+    .class-item:hover {
+      background: rgba(255,215,0,0.2);
+      transform: translateY(-2px);
+    }
+    .price-badge {
+      text-align: center;
+      margin: 30px 0 20px;
+    }
+    .price-badge span {
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      padding: 10px 30px;
+      border-radius: 50px;
+      color: #000;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    .discord-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: var(--discord);
+      color: white;
+      text-decoration: none;
+      padding: 18px 40px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      width: fit-content;
+      margin: 30px auto 0;
+      transition: 0.2s;
+      border: 2px solid transparent;
+    }
+    .discord-btn:hover {
+      background: #4752C4;
+      transform: scale(1.05);
+      border-color: #FFD700;
+    }
+    .free-text {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #FFD700;
+      margin: 20px 0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15,23,42,0.95);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0 8px;
+      border-top: 1px solid var(--border);
+      z-index: 1000;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.7rem;
+      gap: 4px;
+      padding: 5px 20px;
+      border-radius: 30px;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .nav-item.active { 
+      color: var(--primary); 
+      background: rgba(59,130,246,0.1);
+    }
+    .nav-item i { font-size: 1.3rem; }
+
+    .empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 40px;
+      background: var(--card-bg);
+      border-radius: 30px;
+      color: var(--gray);
+    }
+
+    @media (max-width: 480px) {
+      .video-grid, .pdf-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .video-info h4 { font-size: 0.7rem; }
+      .class-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .vip-header h2 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>KELAS MIRROR CRYPTO</h1>
+  <p>ALL IN ONE - Real-time, No Delay</p>
+</header>
+
+<div class="container">
+  <!-- VIDEO SECTION -->
+  <div id="video-section" class="section active">
+    <div class="section-title"><i class="fas fa-play-circle"></i> Video Modul</div>
+    <div id="videoContainer"></div>
+  </div>
+
+  <!-- PDF SECTION -->
+  <div id="pdf-section" class="section">
+    <div class="section-title"><i class="fas fa-file-pdf"></i> PDF Modul</div>
+    <div class="pdf-grid" id="pdfGrid"></div>
+  </div>
+
+  <!-- VIP SECTION -->
+  <div id="vip-section" class="section">
+    <div class="section-title"><i class="fas fa-crown"></i> Join Komunitas</div>
+    <div id="vipContent"></div>
+  </div>
+</div>
+
+<!-- MODAL PLAYER -->
+<div id="videoModal" class="modal">
+  <button class="close-modal" onclick="closeVideoModal()"><i class="fas fa-times"></i></button>
+  <div class="modal-content">
+    <div class="video-player-container" id="videoPlayerContainer">
+      <iframe id="videoIframe" src="" allowfullscreen allow="autoplay"></iframe>
+    </div>
+    <div class="video-info-modal" id="videoInfoModal">
+      <h2 id="modalVideoTitle">Judul Video</h2>
+      <p id="modalVideoDescription"></p>
+    </div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <div class="nav-item active" onclick="showSection('video', this)">
+    <i class="fas fa-play"></i><span>Video</span>
+  </div>
+  <div class="nav-item" onclick="showSection('pdf', this)">
+    <i class="fas fa-file-pdf"></i><span>PDF</span>
+  </div>
+  <div class="nav-item" onclick="showSection('vip', this)">
+    <i class="fas fa-crown"></i><span>JOIN AKSES</span>
+  </div>
+</nav>
+
+<script>
+// ============================================
+// DATA STATIS
+// ============================================
+const appData = {
+  categories: [
+    {
+      name: "Crypto Trading",
+      albums: [
+        {
+          name: "The Art of Crypto Trading",
+          videos: [
+            { 
+              id: 1,
+              title: "Playback 1", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1Pw4wMWDdojue_WgYokETXzXHFLlB25fn/view?usp=drive_link",
+              description: ""
+            },
+            { 
+              id: 2,
+              title: "Playback 2", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1BwfGb0S8D-vJ8tOe3pjyi1T3637b-3Np/view?usp=drive_link",
+              description: ""
+            },
+            { 
+              id: 3,
+              title: "Playback 3", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1x99nVoKOQGlC3VnU87WSB1XrDzGDbNKc/view?usp=drive_link",
+              description: ""
+            },
+            { 
+              id: 4,
+              title: "Playback 4", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1q36_P7ph96uF8eFV4Kx5njQqP-Hrtxgr/view?usp=drive_link",
+              description: ""
+            },
+            { 
+              id: 5,
+              title: "Playback 5", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1qr2qTZDcPfHtDhjh5A6vnGn3x6QnrK3y/view?usp=drive_link",
+              description: ""
+            },
+            { 
+              id: 6,
+              title: "Playback 6", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1bYkotuDJ_TGRzA2_CV5zHZ52ssEpQORH/view?usp=drive_link",
+              description: ""
+            },
+            { 
+              id: 7,
+              title: "Playback 7", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1KvKoLqMZdYpOBEMpgpjESEB_0kyijr4A/view?usp=drive_link",
+              description: ""
+            }
+          ]
+        },
+        {
+          name: "crypto quantitative trading strategy ",
+          videos: [
+            { 
+              id: 1,
+              title: "foundation analystic", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/16_rvgjnmdN__gkXnxTdww9Qx2QgVl1kS/view?usp=drive_link",
+              description: ""
+            },
+            { 
+              id: 2,
+              title: "python setup and ai tools", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1vI3KwgN7HUuurRwvUF8nLC7xwb3-JJU2/view?usp=drive_link",
+              description: ""
+            },
+            { 
+              id: 3,
+              title: "data acquisition and cleaning", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1zopJhWUM8oydkTg0hoAHuXATkOjpXO7N/view?usp=drive_link",
+              description: ""
+            },
+          ]
+        },
+        {
+          name: "grid trading dca",
+          videos: [
+            { 
+              id: 1,
+              title: "grid trading concept 1", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1gUG1DPAe5cqJrPl7vul9yeChUpWY5vxd/view?usp=sharing",
+              description: ""
+            },
+            { 
+              id: 2,
+              title: "grid tgrading concept 2", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1gsXvn_Cf9BC7t8c9zZf9_w9x0yLnAWBY/view?usp=sharing",
+              description: ""
+            },
+          ]
+        },
+        {
+          name: "maen reversal trading",
+          videos: [
+            { 
+              id: 1,
+              title: "playback 1", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1sm5adSs_eKuUd8ctNFI24LPRdPAADQo7/view?usp=drive_link",
+              description: ""
+            },
+            { 
+              id: 2,
+              title: "playback 2", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1tk0EfWRwaH5cKirJ1nUWCANbojGqjiZ7/view?usp=sharing",
+              description: ""
+            },
+            { 
+              id: 3,
+              title: "playback 3", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1IIp9RWlPlSzDElVJUtED0oZpkfHIHm0y/view?usp=sharing",
+              description: ""
+            },
+          ]
+        },
+        {
+          name: "momentum and follow trading",
+          videos: [
+            { 
+              id: 1,
+              title: "playback 1", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1EJKsXPaP-gH-Po2AwbIq5UD2BCmMfoa2/view?usp=sharing",
+              description: ""
+            },
+            { 
+              id: 2,
+              title: "playback 2", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1MmYdR_-DXpRyI9RI4xxxy7-OJDM9Fljk/view?usp=sharing",
+              description: ""
+            },
+            { 
+              id: 3,
+              title: "playback 3", 
+              source: "gdrive",
+              videoUrl: "https://drive.google.com/file/d/1UkiuPW86QAzm01udAMv0br8ILW4KXOhJ/view?usp=sharing",
+              description: ""
+            },
+          ]
+        },
+        {
+          name: "narative research",
+          videos: [
+          { 
+             id: 1,
+             title: "intro to narative analys", 
+             source: "gdrive",
+             videoUrl: "https://drive.google.com/file/d/1fhgZfZ2j32FQxIFfml8GyxhR_m95bs1J/view?usp=sharing",
+             description: ""
+            },
+            { 
+             id: 2,
+             title: "how to be early in every narative", 
+             source: "gdrive",
+             videoUrl: "https://drive.google.com/file/d/12tzQo16tzyEM6euy0QAWO63QDjl1kORn/view?usp=sharing",
+             description: ""
+            },
+            { 
+             id: 3,
+             title: "portofolio allocation", 
+             source: "gdrive",
+             videoUrl: "https://drive.google.com/file/d/1rC5vnt3-K8-w3AyCA2YpQTJoF-7OETVg/view?usp=sharing",
+             description: ""
+            },
+          ]
+        }
+      ]
+    },
+
+
+    {
+      name: "crypto investing",
+      albums: [
+        {
+          name: "",
+          videos: []
+        }
+      ]
+    },
+    {
+      name: "blockchain teknologi",
+      albums: [
+        {
+          name: "",
+          videos: []
+        }
+      ]
+    }
+  ],
+  
+  pdfs: [
+    { 
+      title: "baca candle", 
+      link: "https://drive.google.com/file/d/1PcFn-BX9hKhpJdtOq6qPQVrtK7bXP6x9/view?usp=drive_link"
+    },
+    { 
+      title: "Candle stick trading", 
+      link: "https://drive.google.com/file/d/1OH2Zvtuw9oZzxSE06JPs1JGyTgjdgLUf/view?usp=drive_link"
+    },
+    { 
+      title: "Psychology of money", 
+      link: "https://drive.google.com/file/d/1UaUHtX9nBf6zSHfI7UiI0jLkFI_vQ1md/view?usp=drive_link"
+    },
+    { 
+      title: "the richest man in babylon", 
+      link: "https://drive.google.com/file/d/1UaUHtX9nBf6zSHfI7UiI0jLkFI_vQ1md/view?usp=drive_link"
+    },
+    { 
+      title: "zero to one", 
+      link: "https://drive.google.com/file/d/1SSfF_mARCqTVn0tIZd2KIg9581d-i-nC/view?usp=drive_link"
+    },
+    { 
+      title: "the warrem buffet", 
+      link: "https://drive.google.com/file/d/158xdiFl1knCJbpy6Jlg7kPTRDz4uer35/view?usp=drive_link"
+    },
+    { 
+      title: "the ebook of sathosi", 
+      link: "https://drive.google.com/file/d/1mXLRMcXxZqEC1zu1xpnpS0O2vTrYsVWM/view?usp=drive_link"
+    },
+    { 
+      title: "the decision book", 
+      link: "https://drive.google.com/file/d/1APSMFcypWISdA_VF3OCeVXxl-y_2YuHH/view?usp=drive_link"
+    }
+  ],
+
+  joinVip: {
+    title: "🚀 KELAS MIRROR CRYPTO - ALL IN ONE",
+    subtitle: "Berhenti lompat-lompat kelas. Berhenti telat info.",
+    description: "Sekali join, semua kelas jalan bersamaan, real-time, tanpa delay.\n\nCuan Bareng Crypto menghadirkan Kelas Mirror Crypto All in One - sistem distribusi sinyal & edukasi crypto profesional menggunakan bot autoforward 24 jam aktif, bukan manual, bukan copy-paste.",
+    benefits: [
+      "✅ Modul lengkap dari berbagai akademi crypto ternama",
+      "✅ Signal harian (Spot & Futures)",
+      "✅ Update news global & analisis makro ekonomi (berbasis rilis media kelas dunia)",
+      "✅ Analisis fundamental koin potensial",
+      "✅ Distribusi real-time, no delay"
+    ],
+    classes: [
+      "Akademi Crypto",
+      "Trade With Suli",
+      "KJO Academy",
+      "Gladiator",
+      "Trade With Xander",
+      "Traders12",
+      "Ardalyn",
+      "CryptoCium",
+      "Kevin Saily (SAG)",
+      "ICY Traders",
+      "Daily Recome Crypto",
+      "Crypto Catalyst"
+    ],
+    isFree: true,
+    discordLink: "https://discord.gg/E2mVNunr"
+  }
+};
+
+// ============================================
+// FUNGSI UTILITY
+// ============================================
+function showSection(name, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(m => m.classList.remove('active'));
+  document.getElementById(name + '-section').classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+function extractGoogleDriveId(url) {
+  if (!url || url === '#') return '';
+  
+  const match = url.match(/\/file\/d\/([^\/]+)/);
+  if (match && match[1]) {
+    return match[1];
+  }
+  
+  const idMatch = url.match(/[?&]id=([^&]+)/);
+  if (idMatch && idMatch[1]) {
+    return idMatch[1];
+  }
+  
+  return '';
+}
+
+function openVideoModal(video) {
+  if (!video.videoUrl || video.videoUrl === '#') {
+    alert('Video ini masih kosong. Silakan isi video terlebih dahulu.');
+    return;
+  }
+  
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('videoIframe');
+  const titleEl = document.getElementById('modalVideoTitle');
+  const descEl = document.getElementById('modalVideoDescription');
+  
+  const fileId = extractGoogleDriveId(video.videoUrl);
+  
+  if (fileId) {
+    iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
+  } else {
+    alert('Gagal memuat video. ID tidak ditemukan.');
+    return;
+  }
+  
+  titleEl.textContent = video.title;
+  descEl.textContent = video.description || 'Tidak ada deskripsi';
+  
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideoModal() {
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('videoIframe');
+  
+  modal.classList.remove('active');
+  iframe.src = '';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeVideoModal();
+  }
+});
+
+function extractFileIdForPdf(driveUrl) {
+  if (!driveUrl || driveUrl === '#') return '';
+  const match = driveUrl.match(/\/file\/d\/([^\/]+)/);
+  return match ? match[1] : '';
+}
+
+function toggleAlbum(header) {
+  const grid = header.nextElementSibling;
+  const icon = header.querySelector('.fa-chevron-down');
+  
+  if (grid.style.display === 'none') {
+    grid.style.display = 'grid';
+    icon.style.transform = 'rotate(0deg)';
+  } else {
+    grid.style.display = 'none';
+    icon.style.transform = 'rotate(-90deg)';
+  }
+}
+
+function renderData() {
+  // ========== VIDEOS ==========
+  let videoHtml = '';
+  
+  appData.categories.forEach(cat => {
+    videoHtml += `
+      <div class="category-group">
+        <div class="category-header"><i class="fas fa-folder-open"></i> ${cat.name}</div>
+    `;
+    
+    cat.albums.forEach(album => {
+      videoHtml += `
+        <div class="album-card">
+          <div class="album-header" onclick="toggleAlbum(this)">
+            <i class="fas fa-compact-disc"></i> ${album.name}
+            <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.2s;"></i>
+          </div>
+          <div class="video-grid">
+      `;
+      
+      if (album.videos && album.videos.length > 0) {
+        album.videos.forEach(video => {
+          const videoNumber = video.id;
+          const isPlaceholder = !video.videoUrl || video.videoUrl === '#';
+          
+          const videoForModal = {
+            title: video.title,
+            description: video.description,
+            videoUrl: video.videoUrl
+          };
+          
+          videoHtml += `
+            <div class="video-card" onclick='openVideoModal(${JSON.stringify(videoForModal)})'>
+              <div class="video-thumb">
+                ${isPlaceholder ? 
+                  `<div class="thumb-placeholder">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Kosong</span>
+                  </div>` : 
+                  `<div class="thumb-placeholder">
+                    <i class="fab fa-google-drive"></i>
+                    <span>Playback ${videoNumber}</span>
+                  </div>`
+                }
+                <div class="source-badge">
+                  <i class="fab fa-google-drive"></i> Drive
+                </div>
+                <div class="play-overlay">
+                  <i class="fas fa-play-circle"></i>
+                </div>
+              </div>
+              <div class="video-info">
+                <h4>${video.title}</h4>
+                <div class="video-meta">
+                  <i class="fab fa-google-drive"></i>
+                  <span>Google Drive</span>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      } else {
+        for (let i = 1; i <= 3; i++) {
+          videoHtml += `
+            <div class="video-card" onclick="alert('Album ini masih kosong. Silakan isi video terlebih dahulu.')">
+              <div class="video-thumb">
+                <div class="thumb-placeholder">
+                  <i class="fas fa-plus-circle"></i>
+                  <span>Kosong</span>
+                </div>
+                <div class="source-badge">
+                  <i class="fab fa-google-drive"></i> Drive
+                </div>
+                <div class="play-overlay">
+                  <i class="fas fa-play-circle"></i>
+                </div>
+              </div>
+              <div class="video-info">
+                <h4>[KOSONG] - Copy paste video di sini</h4>
+                <div class="video-meta">
+                  <i class="fab fa-google-drive"></i>
+                  <span>Google Drive</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      }
+      
+      videoHtml += `</div></div>`;
+    });
+    
+    videoHtml += `</div>`;
+  });
+  
+  document.getElementById('videoContainer').innerHTML = videoHtml;
+
+  // ========== PDF ==========
+  let pdfHtml = '';
+  appData.pdfs.forEach(pdf => {
+    const fileId = extractFileIdForPdf(pdf.link);
+    const pdfLink = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : pdf.link;
+    const isPlaceholder = !pdf.link || pdf.link === '#';
+    
+    pdfHtml += `
+      <a href="${pdfLink}" target="${isPlaceholder ? '_self' : '_blank'}" class="pdf-card" ${isPlaceholder ? 'onclick="alert(\'PDF masih kosong\'); return false;"' : ''}>
+        <i class="fas fa-file-pdf"></i>
+        <span class="pdf-title">${pdf.title}</span>
+      </a>
+    `;
+  });
+  
+  document.getElementById('pdfGrid').innerHTML = pdfHtml;
+
+  // ========== VIP ==========
+  const v = appData.joinVip;
+  let vipHtml = `
+    <div class="vip-section">
+      <div class="vip-header">
+        <h2>${v.title}</h2>
+        <div class="vip-subheader">${v.subtitle}</div>
+        <div class="vip-tagline">
+          <i class="fas fa-bolt" style="color:#FFD700;"></i> 
+          SEKALI JOIN, SEMUA KELAS JALAN BERSAMAAN, REAL-TIME, TANPA DELAY
+          <i class="fas fa-bolt" style="color:#FFD700;"></i>
+        </div>
+      </div>
+      
+      <div class="vip-desc">
+        ${v.description.replace(/\n/g, '<br>')}
+      </div>
+
+      <div class="vip-benefits">
+        <h3 style="color:#FFD700; margin-bottom:20px; text-align:center;">📌 APA YANG ANDA DAPATKAN?</h3>
+        ${v.benefits.map(b => `<div class="benefit-item"><i class="fas fa-check-circle"></i> ${b}</div>`).join('')}
+      </div>
+
+      <h3 style="color:#FFD700; margin-bottom:15px; text-align:center;">🧠 DAFTAR KELAS MIRROR (ALL ACCESS)</h3>
+      <div class="class-grid">
+        ${v.classes.map(c => `<div class="class-item">${c}</div>`).join('')}
+      </div>
+
+      <div class="free-text">
+        ⭐ GRATIS - MASA PROMO ⭐
+      </div>
+
+      <div class="price-badge">
+        <span>🎁 FREE AKSES - TERBATAS 🎁</span>
+      </div>
+      
+      <a href="${v.discordLink}" target="_blank" class="discord-btn">
+        <i class="fab fa-discord"></i> JOIN DISCORD SEKARANG
+      </a>
+      
+      <p style="text-align:center; margin-top:20px; color:#94a3b8; font-size:0.9rem;">
+        *Harga akan diumumkan setelah masa promo berakhir
+      </p>
+    </div>
+  `;
+  
+  document.getElementById('vipContent').innerHTML = vipHtml;
+}
+
+// Panggil render
+renderData();
+</script>
+</body>
+</html>
